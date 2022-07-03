@@ -1,0 +1,52 @@
+#rx=-86抬头  rxm=86低头
+#功能：1.回城 2.自尽 3.变生存 4.设置重生点
+
+#功能1
+/execute @a[scores={menu=1},rx=-86] ~~~ tag @s add menu1run
+/execute @a[tag=menu1run] ~~~ tp @s 45 66 -8 0 0
+/execute @a[tag=menu1run] ~~~ scoreboard players set @s menu 0
+/execute @a[tag=menu1run] ~~~ tellraw @s {"rawtext":[{"text":"§d[系统]§a传送成功！"}]}
+/execute @a[tag=menu1run] ~~~ tag @s remove menu1run
+
+#功能2
+/execute @a[scores={menu=2},rx=-86] ~~~ tag @s add menu2run
+/execute @a[tag=menu2run] ~~~ kill @s
+/execute @a[tag=menu2run] ~~~ scoreboard players set @s menu 0
+/execute @a[tag=menu2run] ~~~ tellraw @a {"rawtext":[{"text":"§d[系统]§a成功将§b"},{"selector":"@s"},{"text":"§a执行kill命令"}]}
+/execute @a[tag=menu2run] ~~~ tag @s remove menu2run
+
+#功能3
+/execute @a[scores={menu=3},rx=-86] ~~~ tag @s add menu3run
+/execute @a[tag=menu3run] ~~~ gamemode 0 @s
+/execute @a[tag=menu3run] ~~~ scoreboard players set @s menu 0
+/execute @a[tag=menu3run] ~~~ tellraw @s {"rawtext":[{"text":"§d[系统]§a已尝试将您的游戏模式变为生存！"}]}
+/execute @a[tag=menu3run] ~~~ tag @s remove menu3run
+
+#功能4
+/execute @a[scores={menu=4},rx=-86] ~~~ tag @s add menu4run
+/execute @a[tag=menu4run] ~~~ spawnpoint @s ~~~
+/execute @a[tag=menu4run] ~~~ scoreboard players set @s menu 0
+/execute @a[tag=menu4run] ~~~ tellraw @s {"rawtext":[{"text":"§d[系统]§a已将您的重生点设置在当前所处位置"}]}
+/execute @a[tag=menu4run] ~~~ tag @s remove menu4run
+
+#UI
+/execute @a[scores={menu=1}] ~~~ titleraw @s actionbar {"rawtext":[{"text":"§8"},{"selector":"@s"},{"text":"  §8量子元："},{"score":{"name":"@s","objective":"coin"}},{"text":"  §8在线时间："},{"score":{"name":"@s","objective":"time"}},{"text":"\n§e§l-------------------"},{"text":"\n§6§l返回主城"},{"text":"\n§b自我了断"},{"text":"\n§b变为生存"},{"text":"\n§b设重生点"},{"text":"\n§e§l-------------------"},{"text":"\n§a抬头确认 §c低头取消"},{"text":"\n§8服务器号："},{"score":{"name":"a","objective":"notice"}},{"text":"  §8群号："},{"score":{"name":"b","objective":"notice"}}]}
+/execute @a[scores={menu=2}] ~~~ titleraw @s actionbar {"rawtext":[{"text":"§8"},{"selector":"@s"},{"text":"  §8量子元："},{"score":{"name":"@s","objective":"coin"}},{"text":"  §8在线时间："},{"score":{"name":"@s","objective":"time"}},{"text":"\n§e§l-------------------"},{"text":"\n§b返回主城"},{"text":"\n§6§l自我了断"},{"text":"\n§b变为生存"},{"text":"\n§b设重生点"},{"text":"\n§e§l-------------------"},{"text":"\n§a抬头确认 §c低头取消"},{"text":"\n§8服务器号："},{"score":{"name":"a","objective":"notice"}},{"text":"  §8群号："},{"score":{"name":"b","objective":"notice"}}]}
+/execute @a[scores={menu=3}] ~~~ titleraw @s actionbar {"rawtext":[{"text":"§8"},{"selector":"@s"},{"text":"  §8量子元："},{"score":{"name":"@s","objective":"coin"}},{"text":"  §8在线时间："},{"score":{"name":"@s","objective":"time"}},{"text":"\n§e§l-------------------"},{"text":"\n§b返回主城"},{"text":"\n§b自我了断"},{"text":"\n§6§l变为生存"},{"text":"\n§b设重生点"},{"text":"\n§e§l-------------------"},{"text":"\n§a抬头确认 §c低头取消"},{"text":"\n§8服务器号："},{"score":{"name":"a","objective":"notice"}},{"text":"  §8群号："},{"score":{"name":"b","objective":"notice"}}]}
+/execute @a[scores={menu=4}] ~~~ titleraw @s actionbar {"rawtext":[{"text":"§8"},{"selector":"@s"},{"text":"  §8量子元："},{"score":{"name":"@s","objective":"coin"}},{"text":"  §8在线时间："},{"score":{"name":"@s","objective":"time"}},{"text":"\n§e§l-------------------"},{"text":"\n§b返回主城"},{"text":"\n§b自我了断"},{"text":"\n§b变为生存"},{"text":"\n§6§l设重生点"},{"text":"\n§e§l-------------------"},{"text":"\n§a抬头确认 §c低头取消"},{"text":"\n§8服务器号："},{"score":{"name":"a","objective":"notice"}},{"text":"  §8群号："},{"score":{"name":"b","objective":"notice"}}]}
+
+#触发机制
+/execute @e[type=snowball] ~~~ give @p[r=3] snowball
+/execute @e[type=snowball] ~~~ scoreboard players add @p[r=3] menu 1
+/execute @e[type=snowball] ~~~ playsound note.pling @p
+/execute @e[type=snowball] ~~~ kill @e[type=snowball]
+
+#归零机制
+/execute @a[scores={menu=5..}] ~~~ scoreboard players set @s menu 1
+
+#取消机制
+/execute @a[rxm=86,scores={menu=1..4}] ~~~ tag @s add menu0stop
+/execute @a[tag=menu0stop] ~~~ scoreboard players set @s menu 0
+/execute @a[tag=menu0stop] ~~~ tp @p ~~~~ 0
+/execute @a[tag=menu0stop] ~~~ tellraw @s {"rawtext":[{"text":"§d[系统]§c取消成功！"}]}
+/execute @a[tag=menu0stop] ~~~ tag @s remove menu0stop
