@@ -1,5 +1,9 @@
 #rx=-86抬头  rxm=86低头
 #功能：1.回城 2.自尽 3.变生存 4.设置重生点
+#所用计分板：menu
+#该系统为我个人租赁服开发，要使用的话自己改一改。
+#量子元是我服务器的货币，计分板名称：coin。
+#在线时间是我服务器的玩家游玩时间统计系统，计分板名称：time。
 
 #功能1
 /execute @a[scores={menu=1},rx=-86] ~~~ tag @s add menu1run
@@ -50,3 +54,6 @@
 /execute @a[tag=menu0stop] ~~~ tp @p ~~~~ 0
 /execute @a[tag=menu0stop] ~~~ tellraw @s {"rawtext":[{"text":"§d[系统]§c取消成功！"}]}
 /execute @a[tag=menu0stop] ~~~ tag @s remove menu0stop
+
+#额外t显：可配套雪球菜单
+/execute @a ~~~ titleraw @s actionbar {"rawtext":[{"text":"§a"},{"selector":"@s"},{"text":"  §c量子元："},{"score":{"name":"@s","objective":"coin"}},{"text":"  §b在线时间："},{"score":{"name":"@s","objective":"time"}},{"text":"\n§d服务器号："},{"score":{"name":"a","objective":"notice"}},{"text":"  §e群号："},{"score":{"name":"b","objective":"notice"}}]}
